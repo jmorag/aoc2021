@@ -6,11 +6,11 @@ import Data.Attoparsec.ByteString.Char8
 import Data.FileEmbed
 import Relude
 import Test.Hspec
-import Utils
+import AOCUtils
 
-test1 = $(embedFile "data/Day01/tests/test1")
+test1 = $(embedFile =<< makeRelativeToProject "data/Day01/tests/test1")
 
-input = $(embedFile "data/Day01/input")
+input = $(embedFile =<< makeRelativeToProject "data/Day01/input")
 
 p :: ByteString -> [Int]
 p = r (decimal `sepBy` "\n")

@@ -1,9 +1,14 @@
-module Utils where
+{-# LANGUAGE QuasiQuotes #-}
+{-# LANGUAGE TemplateHaskell #-}
+
+module AOCUtils where
 
 import Data.Attoparsec.ByteString.Char8
+import Data.FileEmbed
 import Debug.Trace
+import Language.Haskell.TH
+import Relude (ByteString)
 import Prelude
-import Data.FileEmbed (embedStringFile)
 
 r parser string = case feed (parse parser string) mempty of
   Done "" x -> x
@@ -16,3 +21,10 @@ r parser string = case feed (parse parser string) mempty of
         , "error: " <> show err
         ]
   Partial _ -> error "impossible"
+
+embed path = embedFile =<< makeRelativeToProject path
+
+embedInput :: DecsQ
+embedInput = do
+  thisMod <- loc_module <$> location
+  [d|input :: ByteString; input = $(embed ("data/" <> thisMod <> "/input"))|]

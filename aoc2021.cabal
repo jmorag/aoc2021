@@ -4,21 +4,22 @@ version:       0.1.0.0
 author:        'Joseph Morag'
 maintainer:    jm@josephmorag.com
 
+data-files: data/**
 library
   build-depends:
     , attoparsec
     , base        <5
-    , hspec
+    , bytestring
     , file-embed
+    , hspec
     , lens
     , relude      ^>=1.0
-    , streaming
+    , template-haskell
+    , text
     , vector
 
   hs-source-dirs:     src
-
-  -- cabal-fmt: expand src
-  --
+  ghc-options: -fno-warn-partial-type-signatures
   exposed-modules:
     Day01
     Day02
@@ -45,10 +46,13 @@ library
     Day23
     Day24
     Day25
+    AOCUtils
+
   default-language:   Haskell2010
   default-extensions:
     NoImplicitPrelude
     NoStarIsType
+    BlockArguments
     ConstraintKinds
     DataKinds
     DefaultSignatures
@@ -74,8 +78,10 @@ library
     NumDecimals
     NumericUnderscores
     OverloadedStrings
+    PartialTypeSignatures
     PatternSynonyms
     PolyKinds
+    QuasiQuotes
     RankNTypes
     ScopedTypeVariables
     TupleSections
