@@ -4,7 +4,8 @@ module Day03 where
 
 import AOCUtils
 import Data.Attoparsec.ByteString.Char8
-import Data.List ((!!))
+import Data.Vector.Unboxed qualified as V
+import Data.Vector.Unboxed ((!))
 import Relude
 import Test.Hspec
 
@@ -48,12 +49,12 @@ spec = hspec do
     it "should calculate the 'CO2 scribber rating'" do
       toDecimal (co2 (p test1)) `shouldBe` 10
 
-findBitCriteria criteria = go 0
+findBitCriteria criteria bss = go 0 (map V.fromList bss) & V.toList
   where
     go _ [bs] = bs
     go i bss =
-      let mcb = criteria (map (!! i) bss)
-       in go (i + 1) (filter (\bs -> (bs !! i) == mcb) bss)
+      go (i + 1) $
+        filter (\bs -> (bs ! i) == criteria (map (! i) bss)) bss
 
 oxygen, co2 :: [[Bool]] -> [Bool]
 oxygen = findBitCriteria mostCommonBit
