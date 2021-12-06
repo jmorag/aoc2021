@@ -2,9 +2,7 @@
 
 module Day02 where
 
-import AOCUtils
-import Data.Attoparsec.ByteString.Char8
-import Relude hiding (Down)
+import AOCUtils hiding (Down)
 
 embedInput
 

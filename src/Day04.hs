@@ -3,11 +3,8 @@
 module Day04 where
 
 import AOCUtils
-import Data.Attoparsec.ByteString.Char8
 import Data.List.Split (chunksOf)
 import Data.Map.Strict qualified as M
-import Relude
-import Test.Hspec
 
 embedInput
 

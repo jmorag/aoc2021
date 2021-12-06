@@ -3,11 +3,8 @@
 module Day03 where
 
 import AOCUtils
-import Data.Attoparsec.ByteString.Char8
 import Data.Vector.Unboxed qualified as V
 import Data.Vector.Unboxed ((!))
-import Relude
-import Test.Hspec
 
 embedInput
 

@@ -1,18 +1,17 @@
-{-# LANGUAGE QuasiQuotes #-}
-{-# LANGUAGE TemplateHaskell #-}
+module AOCUtils (module X, embedInput, r) where
 
-module AOCUtils where
-
-import Data.Attoparsec.ByteString.Char8
+import Data.Attoparsec.ByteString.Char8 as X hiding (take, takeWhile)
 import Data.FileEmbed
 import Debug.Trace
 import Language.Haskell.TH
 import Relude hiding (traceShow)
+import Relude as X
 import System.Directory
+import Test.Hspec as X
 
 r parser string = case feed (parse parser string) mempty of
   Done "" x -> x
-  Done trailing x -> traceShow ("leftover: " <> trailing) x
+  Done trailing x -> Debug.Trace.traceShow ("leftover: " <> trailing) x
   Fail trailing contexts err ->
     error $
       unlines
@@ -25,7 +24,7 @@ r parser string = case feed (parse parser string) mempty of
 embedInput :: DecsQ
 embedInput = do
   thisMod <- loc_module <$> location
-  files <- runIO $ listDirectory ("data/" <> thisMod)
+  files <- Language.Haskell.TH.runIO $ listDirectory ("data/" <> thisMod)
   forM (filter (not . isPrefixOf ".") files) \file -> do
     let var = varP (mkName file)
         embed = embedFile =<< makeRelativeToProject ("data/" <> thisMod <> "/" <> file)

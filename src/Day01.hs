@@ -2,10 +2,6 @@
 
 module Day01 where
 
-import Data.Attoparsec.ByteString.Char8
-import Data.FileEmbed
-import Relude
-import Test.Hspec
 import AOCUtils
 
 embedInput

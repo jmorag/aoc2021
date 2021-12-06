@@ -4,11 +4,8 @@
 module Day05 where
 
 import AOCUtils
-import Data.Attoparsec.ByteString.Char8
 import Data.Ix
 import Data.Map.Strict qualified as M
-import Relude
-import Test.Hspec
 
 data Segment = Segment {x1, y1, x2, y2 :: Int}
   deriving (Show)
