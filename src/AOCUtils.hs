@@ -7,8 +7,8 @@ import Data.Attoparsec.ByteString.Char8
 import Data.FileEmbed
 import Debug.Trace
 import Language.Haskell.TH
-import Relude (ByteString)
-import Prelude
+import Relude hiding (traceShow)
+import System.Directory
 
 r parser string = case feed (parse parser string) mempty of
   Done "" x -> x
@@ -22,9 +22,11 @@ r parser string = case feed (parse parser string) mempty of
         ]
   Partial _ -> error "impossible"
 
-embed path = embedFile =<< makeRelativeToProject path
-
 embedInput :: DecsQ
 embedInput = do
   thisMod <- loc_module <$> location
-  [d|input :: ByteString; input = $(embed ("data/" <> thisMod <> "/input"))|]
+  files <- runIO $ listDirectory ("data/" <> thisMod)
+  forM (filter (not . isPrefixOf ".") files) \file -> do
+    let var = varP (mkName file)
+        embed = embedFile =<< makeRelativeToProject ("data/" <> thisMod <> "/" <> file)
+    valD var (normalB embed) []

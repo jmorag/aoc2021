@@ -10,8 +10,6 @@ import Test.Hspec
 
 embedInput
 
-test1 = $(embed "data/Day03/tests/test1")
-
 type Input = [[Bool]]
 
 p = r $ many do

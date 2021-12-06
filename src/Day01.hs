@@ -8,12 +8,10 @@ import Relude
 import Test.Hspec
 import AOCUtils
 
-test1 = $(embedFile =<< makeRelativeToProject "data/Day01/tests/test1")
-
-input = $(embedFile =<< makeRelativeToProject "data/Day01/input")
+embedInput
 
 p :: ByteString -> [Int]
-p = r (decimal `sepBy` "\n")
+p = r $ many $ decimal <* "\n"
 
 numIncreasing ns@(_ : nss) = zipWith (<) ns nss & filter id & length
 numIncreasing [] = 0
@@ -27,8 +25,7 @@ slidingWindowNumIncreasing = numIncreasing . sums
 
 part2 = slidingWindowNumIncreasing (p input)
 
-spec :: Spec
-spec = do
+spec = hspec do
   describe "Part 1" do
     it "should find the number of increasing entries in the list" do
       numIncreasing (p test1) `shouldBe` 7

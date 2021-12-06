@@ -10,6 +10,7 @@ library
     , attoparsec
     , base              <5
     , bytestring
+    , directory
     , file-embed
     , hspec
     , lens
