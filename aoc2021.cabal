@@ -15,6 +15,7 @@ library
     , hspec
     , lens
     , monad-memo
+    , QuickCheck
     , relude            ^>=1.0
     , split
     , template-haskell
