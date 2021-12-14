@@ -7,6 +7,7 @@ data-files:    data/**
 
 library
   build-depends:
+    , array
     , attoparsec
     , base              <5
     , bytestring

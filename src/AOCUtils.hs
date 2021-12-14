@@ -1,5 +1,6 @@
-module AOCUtils (module X, embedInput, r) where
+module AOCUtils (module X, embedInput, r, debugArray) where
 
+import Data.Array
 import Data.Attoparsec.ByteString.Char8 as X hiding (take, takeWhile)
 import Data.FileEmbed
 import Debug.Trace
@@ -29,3 +30,10 @@ embedInput = do
     let var = varP (mkName file)
         embed = embedFile =<< makeRelativeToProject ("data/" <> thisMod <> "/" <> file)
     valD var (normalB embed) []
+
+debugArray :: Show a => Array (Int, Int) a -> IO ()
+debugArray arr =
+  let ((n', m'), (n, m)) = bounds arr
+   in forM_ [n' .. n] \i -> do
+        forM_ [m' .. m] \j -> putStr (show (arr ! (i, j)))
+        putStrLn ""
