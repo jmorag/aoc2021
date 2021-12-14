@@ -46,19 +46,17 @@ part1 = riskLevel (p input)
 findBasin grid = go mempty
   where
     go seen ix
-      | grid ! ix == 9 = mempty
+      | grid ! ix == 9 = seen
       | otherwise =
-        S.insert ix $
-          S.unions $
-            map
-              (go (S.insert ix seen))
-              (neighbors ix grid & filter (`S.notMember` seen))
+        foldl' go (S.insert ix seen) (neighbors ix grid & filter (`S.notMember` seen))
 
-allBasins grid = go (fromList $ indices grid) where
-  go ixSet = case S.minView ixSet of
-    Nothing -> mempty
-    Just (ix, ixSet') -> let basin = findBasin grid ix in
-      (if S.null basin then id else S.insert basin) (go (ixSet' S.\\ basin))
+allBasins grid = go (fromList $ indices grid)
+  where
+    go ixSet = case S.minView ixSet of
+      Nothing -> mempty
+      Just (ix, ixSet') ->
+        let basin = findBasin grid ix
+         in (if S.null basin then id else S.insert basin) (go (ixSet' S.\\ basin))
 
 p2 grid = allBasins grid & toList & map S.size & sort & reverse & take 3 & product
 
